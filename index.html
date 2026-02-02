@@ -152,8 +152,8 @@
   </h1>
 
   <section class="button-zone" id="zone">
-    <button id="yesBtn">Ja 😍</button>
-    <button id="noBtn">Nein 🙈</button>
+    <button id="yesBtn">Ja</button>
+    <button id="noBtn">Nein</button>
   </section>
 
   <div class="hint" id="hint">„Nein“ ist heute sehr schüchtern 😈</div>
@@ -217,7 +217,18 @@
     growYes();
   }
 
-  zone.addEventListener("pointermove", e => moveNo(e.clientX, e.clientY));
+  zone.addEventListener("pointermove", e => {
+  const b = noBtn.getBoundingClientRect();
+  const distance = Math.hypot(
+    (b.left + b.width / 2) - e.clientX,
+    (b.top + b.height / 2) - e.clientY
+  );
+
+  // erst reagieren, wenn man wirklich nah dran ist
+  if (distance < 70) {
+    moveNo(e.clientX, e.clientY);
+  }
+});
   noBtn.addEventListener("click", e => e.preventDefault());
 
   yesBtn.addEventListener("click", () => {
